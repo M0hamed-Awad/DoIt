@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DoIt</string>
+    <string name="tab_icon_desc">Tab Icon</string>
 </resources>
