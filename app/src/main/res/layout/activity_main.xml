@@ -49,6 +49,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="FAB Button"
             android:src="@drawable/ic_add_24"
+            app:backgroundTint="@color/secondary_color"
+            app:tint="@color/white"
             app:layout_anchor="@id/bottom_app_bar"
             android:layout_margin="16dp"/>
 

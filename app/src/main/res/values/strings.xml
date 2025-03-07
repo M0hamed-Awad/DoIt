@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">DoIt</string>
     <string name="tab_icon_desc">Tab Icon</string>
+    <string name="add_task_title">Let\'s Add a New Task!</string>
+    <string name="add_button_text">Add</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="task_title_et_hint">Task Title</string>
+    <string name="task_description_et_hint">Task Description</string>
+    <string name="task_deadline_et_hint">Task Deadline</string>
 </resources>
