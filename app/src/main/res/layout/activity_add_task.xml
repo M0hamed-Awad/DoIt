@@ -1,154 +1,261 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.AddTaskActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!--  Body  -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/body_linear_layout"
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:id="@+id/main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.AddTaskActivity">
 
-        <!--  Title  -->
-        <TextView
-            android:id="@+id/add_task_activity_title_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:text="@string/add_task_title"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!--  Text Fields  -->
-        <LinearLayout
-            android:id="@+id/form_linear_layout"
+        <!--  Body  -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/body_linear_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/buttons_linear_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_task_activity_title_tv">
+            android:layout_height="wrap_content">
 
-            <!-- Task Title Text Field -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/title_text_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/task_title_et_hint"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/secondary_color_dark"
-                app:boxStrokeWidth="2dp"
-                app:cursorColor="@color/secondary_color_dark"
-                app:hintTextColor="@color/secondary_color_dark"
-                android:layout_marginBottom="12dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/add_task_activity_task_title_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Task Description Text Field -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/desc_text_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/task_description_et_hint"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/secondary_color_dark"
-                app:boxStrokeWidth="2dp"
-                app:cursorColor="@color/secondary_color_dark"
-                app:hintTextColor="@color/secondary_color_dark"
-                android:layout_marginBottom="12dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/add_task_activity_task_desc_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Task Deadline Text Field -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/deadline_text_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/task_deadline_et_hint"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeColor="@color/secondary_color_dark"
-                app:boxStrokeWidth="2dp"
-                app:cursorColor="@color/secondary_color_dark"
-                app:hintTextColor="@color/secondary_color_dark">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/add_task_activity_task_deadline_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="datetime" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-        <!--  Buttons  -->
-        <LinearLayout
-            android:id="@+id/buttons_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/add_task_activity_confirm_btn"
+            <!--  Title  -->
+            <TextView
+                android:id="@+id/add_task_activity_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/green_color"
-                android:padding="16dp"
-                android:text="@string/add_button_text"
-                android:textSize="16sp"
+                android:layout_marginTop="100dp"
+                android:text="@string/add_task_title"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/add_task_activity_cancel_btn"
-                android:layout_width="wrap_content"
+            <!--  Text Fields  -->
+            <LinearLayout
+                android:id="@+id/form_linear_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="@color/red_color"
-                android:padding="16dp"
-                android:text="@string/cancel_button_text"
-                android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/buttons_linear_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/add_task_activity_title_tv">
 
-        </LinearLayout>
+                <!-- Task Title Text Field -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/title_text_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="@string/task_title_et_hint"
+                    android:textColorHint="@color/secondary_color_dark"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeColor="@color/secondary_color_dark"
+                    app:boxStrokeWidth="2dp"
+                    app:cursorColor="@color/secondary_color_dark"
+                    app:hintTextColor="@color/secondary_color_dark">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/add_task_activity_task_title_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_title_24px"
+                        android:drawableTint="@color/secondary_color_dark"
+                        android:inputType="text" />
 
-</ScrollView>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Task Description Text Field -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/desc_text_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="@string/task_description_et_hint"
+                    android:textColorHint="@color/secondary_color_dark"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeColor="@color/secondary_color_dark"
+                    app:boxStrokeWidth="2dp"
+                    app:cursorColor="@color/secondary_color_dark"
+                    app:hintTextColor="@color/secondary_color_dark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/add_task_activity_task_desc_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_description_24px"
+                        android:drawableTint="@color/secondary_color_dark"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Task Deadline -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <!-- Label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/task_deadline_label"
+                        android:textColor="@color/secondary_color_dark"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/task_deadline_linear_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/task_deadline_background"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <!-- Date Picker -->
+                        <LinearLayout
+                            android:id="@+id/select_date_linear_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:contentDescription="@string/date_picker_icon_desc"
+                                android:src="@drawable/ic_date_24px"
+                                app:tint="@color/secondary_color_dark" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/date_label_name"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/task_deadline_date"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Divider-->
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="12dp" />
+
+                        <!-- Time Picker -->
+                        <LinearLayout
+                            android:id="@+id/select_time_linear_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:text="@string/time_label_name"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/task_deadline_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:contentDescription="@string/time_picker_icon_desc"
+                                android:src="@drawable/ic_time_24px"
+                                app:tint="@color/secondary_color_dark" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!--  Buttons  -->
+            <LinearLayout
+                android:id="@+id/buttons_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="100dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <Button
+                    android:id="@+id/add_task_activity_confirm_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/green_color"
+                    android:paddingVertical="16dp"
+                    android:text="@string/confirm_button_text"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/add_task_activity_cancel_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/red_color"
+                    android:paddingVertical="16dp"
+                    android:text="@string/cancel_button_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

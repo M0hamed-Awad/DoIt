@@ -2,9 +2,15 @@
     <string name="app_name">DoIt</string>
     <string name="tab_icon_desc">Tab Icon</string>
     <string name="add_task_title">Let\'s Add a New Task!</string>
-    <string name="add_button_text">Add</string>
+    <string name="confirm_button_text">Confirm</string>
     <string name="cancel_button_text">Cancel</string>
     <string name="task_title_et_hint">Task Title</string>
     <string name="task_description_et_hint">Task Description</string>
-    <string name="task_deadline_et_hint">Task Deadline</string>
+    <string name="task_deadline_date_et_hint">Task Date</string>
+    <string name="task_deadline_time_et_hint">Task Time</string>
+    <string name="date_label_name">Date</string>
+    <string name="time_label_name">Time</string>
+    <string name="task_deadline_label">Task Deadline</string>
+    <string name="date_picker_icon_desc">Date Picker Icon</string>
+    <string name="time_picker_icon_desc">Time Picker Icon</string>
 </resources>
