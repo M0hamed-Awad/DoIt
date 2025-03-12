@@ -153,7 +153,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
-                                    android:id="@+id/task_deadline_date"
+                                    android:id="@+id/add_task_activity_task_deadline_date_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp" />
@@ -191,7 +191,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
-                                    android:id="@+id/task_deadline_time"
+                                    android:id="@+id/add_task_activity_task_deadline_time_tv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp" />
