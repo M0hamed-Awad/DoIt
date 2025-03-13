@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.doit.R
+import androidx.lifecycle.ViewModelProvider
+import com.example.doit.database.DatabaseProvider
+import com.example.doit.databinding.FragmentInProgressTasksBinding
+import com.example.doit.models.TaskModel
+import com.example.doit.repository.TaskRepository
+import com.example.doit.ui.adapters.TaskRecyclerViewAdapter
+import com.example.doit.viewmodels.TaskViewModel
+import com.example.doit.viewmodels.TaskViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,10 +24,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [InProgressTasksFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class InProgressTasksFragment : Fragment() {
+class InProgressTasksFragment : Fragment(), TaskRecyclerViewAdapter.OnItemClickListener  {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentInProgressTasksBinding
+    private lateinit var taskViewModel: TaskViewModel
+    private lateinit var adapter: TaskRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +43,37 @@ class InProgressTasksFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_in_progress_tasks, container, false)
+        binding = FragmentInProgressTasksBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        val dao = DatabaseProvider.getDatabase(requireContext()).getTaskDao()
+        val repository = TaskRepository(dao)
+        val factory = TaskViewModelFactory(repository)
+
+        taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
+
+        adapter = TaskRecyclerViewAdapter(emptyList(), this)
+
+        binding.inProgressTasksFragmentRecyclerView.adapter = adapter
+
+        observeTasks()
+    }
+
+    private fun observeTasks() {
+        taskViewModel.inProgressTasks.observe(viewLifecycleOwner) { tasks ->
+            adapter.updateTasks(tasks)
+        }
+    }
+
+    override fun onItemClicked(task: TaskModel) {
+        TODO("Not yet implemented")
     }
 
     companion object {
