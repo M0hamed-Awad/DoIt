@@ -15,4 +15,7 @@
     <string name="time_picker_icon_desc">Time Picker Icon</string>
     <string name="more_options_icon_desc">Icon to edit or delete tasks</string>
     <string name="task_status_icon_desc">Task Statues Icon</string>
+    <string name="bottom_nav_home_title">Home</string>
+    <string name="bottom_nav_search_title">Search</string>
+    <string name="fab_button_desc">FAB Button</string>
 </resources>

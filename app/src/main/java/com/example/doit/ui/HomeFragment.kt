@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.example.doit.R
 import com.example.doit.databinding.FragmentHomeBinding
+import com.example.doit.ui.adapters.HomePagerAdapter
 import com.example.doit.utils.Constants
 import com.google.android.material.tabs.TabLayoutMediator
 
