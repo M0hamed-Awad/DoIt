@@ -54,8 +54,7 @@ class InProgressTasksFragment : Fragment(), TaskRecyclerViewAdapter.OnItemClickL
 
 
         val dao = DatabaseProvider.getDatabase(requireContext()).getTaskDao()
-        val repository = TaskRepository(dao)
-        val factory = TaskViewModelFactory(repository)
+        val factory = TaskViewModelFactory(TaskRepository(dao))
 
         taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
 

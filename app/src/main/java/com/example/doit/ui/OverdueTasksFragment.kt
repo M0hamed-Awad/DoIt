@@ -5,7 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.doit.R
+import androidx.lifecycle.ViewModelProvider
+import com.example.doit.database.DatabaseProvider
+import com.example.doit.databinding.FragmentOverdueTasksBinding
+import com.example.doit.models.TaskModel
+import com.example.doit.repository.TaskRepository
+import com.example.doit.ui.adapters.TaskRecyclerViewAdapter
+import com.example.doit.viewmodels.TaskViewModel
+import com.example.doit.viewmodels.TaskViewModelFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -17,10 +24,13 @@ private const val ARG_PARAM2 = "param2"
  * Use the [OverdueTasksFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class OverdueTasksFragment : Fragment() {
+class OverdueTasksFragment : Fragment(), TaskRecyclerViewAdapter.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private lateinit var binding: FragmentOverdueTasksBinding
+    private lateinit var taskViewModel: TaskViewModel
+    private lateinit var adapter: TaskRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +43,35 @@ class OverdueTasksFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_overdue_tasks, container, false)
+    ): View {
+        binding = FragmentOverdueTasksBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val dao = DatabaseProvider.getDatabase(requireContext()).getTaskDao()
+        val factory = TaskViewModelFactory(TaskRepository(dao))
+
+        taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
+
+        adapter = TaskRecyclerViewAdapter(emptyList(), this)
+
+        binding.overdueTasksFragmentRecyclerView.adapter = adapter
+
+        observeTasks()
+    }
+
+
+    private fun observeTasks() {
+        taskViewModel.overdueTasks.observe(viewLifecycleOwner) { tasks ->
+            adapter.updateTasks(tasks)
+        }
+    }
+
+    override fun onItemClicked(task: TaskModel) {
+        TODO("Not yet implemented")
     }
 
     companion object {
