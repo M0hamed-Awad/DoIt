@@ -1,4 +1,4 @@
-package com.example.doit.ui
+package com.example.doit.ui.activities
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -9,14 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.doit.R
 import com.example.doit.database.DatabaseProvider
 import com.example.doit.databinding.ActivityAddTaskBinding
+import com.example.doit.models.TaskDao
 import com.example.doit.models.TaskModel
 import com.example.doit.repository.TaskRepository
 import com.example.doit.utils.HelperFunctions
 import com.example.doit.utils.HelperFunctions.Companion.validateEmptyField
+import com.example.doit.viewmodels.TaskViewModel
+import com.example.doit.viewmodels.TaskViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -27,6 +31,10 @@ import java.util.TimeZone
 
 class AddTaskActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddTaskBinding
+
+    private lateinit var dao: TaskDao
+    private lateinit var taskViewModel: TaskViewModel
+
     private lateinit var datePicker: DatePickerDialog.OnDateSetListener
     private lateinit var timePicker: TimePickerDialog.OnTimeSetListener
 
@@ -46,19 +54,21 @@ class AddTaskActivity : AppCompatActivity() {
             insets
         }
 
-        val dao = DatabaseProvider.getDatabase(this).getTaskDao()
-        val repository = TaskRepository(dao)
+        dao = DatabaseProvider.getDatabase(this).getTaskDao()
+
+        val factory = TaskViewModelFactory(TaskRepository(dao))
+        taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
+
+        initializeDatePicker()
+        initializeTimePicker()
 
         binding.addTaskActivityConfirmBtn.setOnClickListener {
             if (validateForm()){
-                addNewTask(repository)
+                insertTask()
             }
         }
 
         binding.addTaskActivityCancelBtn.setOnClickListener { finish() }
-
-        initializeDatePicker()
-        initializeTimePicker()
 
         binding.selectDateLinearLayout.setOnClickListener {
             showDatePickerDialog(datePicker, calendarDate)
@@ -122,7 +132,7 @@ class AddTaskActivity : AppCompatActivity() {
     }
 
     private fun updateTimeLabel(calendarTime: Calendar) {
-        val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
         val time = format.format(calendarTime.time)
         binding.addTaskActivityTaskDeadlineTimeTv.text = time
     }
@@ -187,17 +197,12 @@ class AddTaskActivity : AppCompatActivity() {
         }
     }
 
-    private fun addNewTask(repository: TaskRepository) {
-        val taskTitle = binding.addTaskActivityTaskTitleEt.text.toString()
-        val taskDescription = binding.addTaskActivityTaskDescEt.text.toString()
-
-        val date = binding.addTaskActivityTaskDeadlineDateTv.text.toString().trim()
-        val time = binding.addTaskActivityTaskDeadlineTimeTv.text.toString().trim()
-
-        val taskDeadline = HelperFunctions.parseDeadline(date, time)
+    private fun insertTask() {
+        // Getting Task Values from their Views
+        val (taskTitle, taskDescription, taskDeadline) = extractTaskInfoFromTextViews()
 
         lifecycleScope.launch(Dispatchers.IO) {
-            repository.insertTask(
+            taskViewModel.insertTask(
                 TaskModel(
                     title = taskTitle,
                     description = taskDescription,
@@ -208,4 +213,19 @@ class AddTaskActivity : AppCompatActivity() {
 
         finish()
     }
+
+    private fun extractTaskInfoFromTextViews(): Triple<String, String, LocalDateTime> {
+        // Setting up the Task Deadline components (date - time)
+        val date = binding.addTaskActivityTaskDeadlineDateTv.text.toString().trim()
+        val time = binding.addTaskActivityTaskDeadlineTimeTv.text.toString().trim()
+
+        // Getting Task Values from their Views
+        val taskTitle = binding.addTaskActivityTaskTitleEt.text.toString()
+        val taskDescription = binding.addTaskActivityTaskDescEt.text.toString()
+
+        val taskDeadline = HelperFunctions.parseDeadline(date, time)
+
+        return Triple(taskTitle, taskDescription, taskDeadline)
+    }
+
 }

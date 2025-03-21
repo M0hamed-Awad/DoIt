@@ -1,4 +1,4 @@
-package com.example.doit.ui
+package com.example.doit.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.Intent

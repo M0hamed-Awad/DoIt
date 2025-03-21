@@ -1,4 +1,4 @@
-package com.example.doit.ui
+package com.example.doit.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
