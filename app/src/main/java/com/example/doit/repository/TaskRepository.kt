@@ -25,4 +25,8 @@ class TaskRepository(private val dao: TaskDao) {
     fun getOverdueTasks(): LiveData<List<TaskModel>> {
         return dao.getOverdueTasks()
     }
+
+    suspend fun updateOverdueTasks(currentTime: String) {
+        dao.updateOverdueTasks(currentTime)
+    }
 }

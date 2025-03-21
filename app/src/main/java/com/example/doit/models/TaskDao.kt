@@ -23,6 +23,9 @@ interface TaskDao {
     @Query("SELECT * FROM tasks where taskStatus = 'Overdue'")
     fun getOverdueTasks(): LiveData<List<TaskModel>>
 
+    @Query("UPDATE tasks SET taskStatus = 'Overdue' WHERE deadline < :currentTime AND taskStatus == 'In Progress'")
+    suspend fun updateOverdueTasks(currentTime: String)
+
     @Query("SELECT * FROM tasks")
     fun getAllTasks(): List<TaskModel>
 }
