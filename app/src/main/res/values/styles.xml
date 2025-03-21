@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="PopupMenuStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_bg</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    
+    <style name="BottomSheetDialogTheme" parent="Theme.Material3.DayNight.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomAppBar" parent="Widget.Material3.BottomAppBar">
+        <item name="backgroundTint">@color/background_color</item>
+    </style>
+
+    <style name="CustomTabLayoutStyle" parent="Widget.Material3.TabLayout">
+        <item name="android:background">@color/background_color</item>
+    </style>
+</resources>

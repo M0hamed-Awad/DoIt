@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <ScrollView
+        android:id="@+id/edit_task_bottom_sheet_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:background="@drawable/edit_task_bottom_sheet_bg">
+
+        <!--  Body  -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/edit_task_bottom_sheet_body_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--  Text Fields  -->
+            <LinearLayout
+                android:id="@+id/edit_task_bottom_sheet_form_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp"
+                android:layout_marginTop="32dp"
+                app:layout_constraintBottom_toTopOf="@+id/edit_task_bottom_sheet_buttons_linear_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- Task Title Text Field -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_task_bottom_sheet_title_text_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="@string/task_title_et_hint"
+                    android:textColorHint="@color/secondary_color_dark"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeColor="@color/secondary_color_dark"
+                    app:cursorColor="@color/secondary_color_dark"
+                    app:hintTextColor="@color/secondary_color_dark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_task_bottom_sheet_task_title_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_title_24px"
+                        android:drawableTint="@color/secondary_color_dark"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Task Description Text Field -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/edit_task_bottom_sheet_desc_text_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="@string/task_description_et_hint"
+                    android:textColorHint="@color/secondary_color_dark"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeColor="@color/secondary_color_dark"
+                    app:cursorColor="@color/secondary_color_dark"
+                    app:hintTextColor="@color/secondary_color_dark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edit_task_bottom_sheet_task_desc_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_description_24px"
+                        android:drawableTint="@color/secondary_color_dark"
+                        android:inputType="text" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Task Deadline -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:orientation="vertical">
+
+                    <!-- Label -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/task_deadline_label"
+                        android:textColor="@color/secondary_color_dark"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:id="@+id/edit_task_bottom_sheet_task_deadline_linear_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/task_text_field_background"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <!-- Date Picker -->
+                        <LinearLayout
+                            android:id="@+id/edit_task_bottom_sheet_select_date_linear_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="12dp"
+                                android:contentDescription="@string/date_picker_icon_desc"
+                                android:src="@drawable/ic_date_24px"
+                                app:tint="@color/secondary_color_dark" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/date_label_name"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/edit_task_bottom_sheet_task_deadline_date_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <!-- Divider-->
+                        <com.google.android.material.divider.MaterialDivider
+                            android:layout_width="2dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="12dp" />
+
+                        <!-- Time Picker -->
+                        <LinearLayout
+                            android:id="@+id/edit_task_bottom_sheet_select_time_linear_layout"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:text="@string/time_label_name"
+                                    android:textSize="16sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/edit_task_bottom_sheet_task_deadline_time_tv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:contentDescription="@string/time_picker_icon_desc"
+                                android:src="@drawable/ic_time_24px"
+                                app:tint="@color/secondary_color_dark" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Task Status -->
+
+            </LinearLayout>
+
+            <!--  Buttons  -->
+            <LinearLayout
+                android:id="@+id/edit_task_bottom_sheet_buttons_linear_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <Button
+                    android:id="@+id/edit_task_bottom_sheet_confirm_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/green_color"
+                    android:paddingVertical="16dp"
+                    android:text="@string/confirm_button_text"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/edit_task_bottom_sheet_cancel_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/red_color"
+                    android:paddingVertical="16dp"
+                    android:text="@string/cancel_button_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>
