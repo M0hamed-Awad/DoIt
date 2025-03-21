@@ -11,7 +11,7 @@
         android:id="@+id/home_fragment_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:context=".ui.HomeFragment">
+        tools:context=".ui.fragments.HomeFragment">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
@@ -25,6 +25,15 @@
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
             app:tabRippleColor="@null" />
+
+        <View
+            android:layout_marginHorizontal="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorSurfaceVariant"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"

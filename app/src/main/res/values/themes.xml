@@ -4,7 +4,13 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowIsTranslucent">true</item>
+        <item name="popupMenuStyle">@style/PopupMenuStyle</item>
+        <item name="android:windowBackground">@color/background_color</item>
+        <item name="bottomAppBarStyle">@style/CustomBottomAppBar</item>
+        <item name="tabStyle">@style/CustomTabLayoutStyle</item>
+        <item name="android:textColor">@color/text_color</item>
     </style>
+
 
     <style name="Theme.DoIt" parent="Base.Theme.DoIt" />
 </resources>

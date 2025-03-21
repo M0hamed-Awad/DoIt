@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context=".ui.AddTaskActivity">
+        tools:context=".ui.activities.AddTaskActivity">
 
         <!--  Body  -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,9 +58,9 @@
                     app:boxCornerRadiusTopEnd="16dp"
                     app:boxCornerRadiusTopStart="16dp"
                     app:boxStrokeColor="@color/secondary_color_dark"
-                    app:boxStrokeWidth="2dp"
                     app:cursorColor="@color/secondary_color_dark"
-                    app:hintTextColor="@color/secondary_color_dark">
+                    app:hintTextColor="@color/secondary_color_dark"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/add_task_activity_task_title_et"
@@ -85,7 +85,6 @@
                     app:boxCornerRadiusTopEnd="16dp"
                     app:boxCornerRadiusTopStart="16dp"
                     app:boxStrokeColor="@color/secondary_color_dark"
-                    app:boxStrokeWidth="2dp"
                     app:cursorColor="@color/secondary_color_dark"
                     app:hintTextColor="@color/secondary_color_dark">
 
@@ -120,7 +119,7 @@
                         android:id="@+id/task_deadline_linear_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/task_deadline_background"
+                        android:background="@drawable/task_text_field_background"
                         android:orientation="horizontal"
                         android:padding="12dp">
 
@@ -149,6 +148,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@string/date_label_name"
+                                    android:textColor="@color/secondary_color_dark"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -187,6 +187,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="end"
                                     android:text="@string/time_label_name"
+                                    android:textColor="@color/secondary_color_dark"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -250,6 +251,7 @@
                     android:backgroundTint="@color/red_color"
                     android:paddingVertical="16dp"
                     android:text="@string/cancel_button_text"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

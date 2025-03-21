@@ -11,14 +11,14 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.MainActivity">
+        tools:context=".ui.activities.MainActivity">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:name="com.example.doit.ui.HomeFragment"
-            tools:layout="@layout/fragment_home" />
+            tools:layout="@layout/fragment_home"
+            android:name="com.example.doit.ui.fragments.HomeFragment" />
 
 
         <com.google.android.material.bottomappbar.BottomAppBar
@@ -26,6 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            app:addElevationShadow="true"
+            app:elevation="12dp"
             app:fabAlignmentMode="center"
             app:fabAnchorMode="cradle"
             app:fabCradleMargin="8dp"
@@ -38,9 +40,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="12dp"
                 android:background="@android:color/transparent"
-                android:elevation="0dp"
                 app:menu="@menu/bottom_nav_menu"
-                app:itemIconTint="@color/primary_color"/>
+                app:itemIconTint="@color/primary_color"
+                app:itemRippleColor="@android:color/transparent"
+                app:itemActiveIndicatorStyle="@android:color/transparent"/>
 
         </com.google.android.material.bottomappbar.BottomAppBar>
 

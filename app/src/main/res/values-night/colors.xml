@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_color">#F8FCFF</color>
+
+    <!-- Options Menu Color -->
+    <color name="options_menu_background_color">#494F57</color>
+
+    <!-- Task Items Colors -->
+    <color name="in_progress_task_color">#DC9D05</color>
+    <color name="completed_task_color">#12BA46</color>
+    <color name="overdue_task_color">#B14040</color>
+</resources>

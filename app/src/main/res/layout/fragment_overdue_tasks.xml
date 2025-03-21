@@ -11,7 +11,7 @@
         android:id="@+id/main_overdue_tasks_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.OverdueTasksFragment">
+        tools:context=".ui.fragments.OverdueTasksFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/overdue_tasks_fragment_recycler_view"

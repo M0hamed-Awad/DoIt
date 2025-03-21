@@ -10,11 +10,21 @@
     <color name="green_color">#0DA958</color>
     <color name="red_color">#CA0F08</color>
     <color name="cyan_color">#10EBD9</color>
-    <color name="unselected_tab_color">#CECECE</color>
+    <color name="light_grey_color">#F0F0F0</color>
+    <color name="background_color">#FFFAF1</color>
+    <color name="text_color">#0A1016</color>
+
+    <!-- Options Menu Color -->
+    <color name="options_menu_background_color">#F3F7FA</color>
 
     <!-- Task Items Colors -->
     <color name="in_progress_task_color">#FCD68B</color>
     <color name="completed_task_color">#83FFA9</color>
     <color name="overdue_task_color">#FFABAB</color>
 
+    <!-- Task Options Icons Colors -->
+    <color name="complete_task_icon_color">#10DB61</color>
+    <color name="delete_task_icon_color">#D94B4B</color>
+
+    <color name="card_stroke_color">?attr/colorOutline</color>
 </resources>

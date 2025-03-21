@@ -13,9 +13,12 @@
     <string name="task_deadline_label">Task Deadline</string>
     <string name="date_picker_icon_desc">Date Picker Icon</string>
     <string name="time_picker_icon_desc">Time Picker Icon</string>
-    <string name="more_options_icon_desc">Icon to edit or delete tasks</string>
+    <string name="more_options_icon_desc">More Options Icon</string>
     <string name="task_status_icon_desc">Task Statues Icon</string>
     <string name="bottom_nav_home_title">Home</string>
     <string name="bottom_nav_search_title">Search</string>
     <string name="fab_button_desc">FAB Button</string>
+    <string name="delete_task_option_title">Delete Task</string>
+    <string name="edit_task_option_title">Edit Task</string>
+    <string name="complete_task_option_title">Complete Task</string>
 </resources>

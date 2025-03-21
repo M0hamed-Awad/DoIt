@@ -13,14 +13,14 @@
         android:theme="@style/Theme.DoIt"
         tools:targetApi="31">
         <activity
-            android:name=".ui.AddTaskActivity"
+            android:name=".ui.activities.AddTaskActivity"
             android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SplashScreenActivity"
+            android:name=".ui.activities.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
