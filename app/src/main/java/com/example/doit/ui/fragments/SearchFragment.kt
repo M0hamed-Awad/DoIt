@@ -82,8 +82,14 @@ class SearchFragment : Fragment(),
         taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
 
         // Initializing Date & Time Pickers to be used in their Dialogs
-        datePicker = HelperFunctions.initializeDatePicker(calendarDate, bottomSheetBinding)
-        timePicker = HelperFunctions.initializeTimePicker(calendarTime, bottomSheetBinding)
+        datePicker = HelperFunctions.initializeDatePicker(
+            calendarDate,
+            bottomSheetBinding.editTaskBottomSheetTaskDeadlineDateTv
+        )
+        timePicker = HelperFunctions.initializeTimePicker(
+            calendarTime,
+            bottomSheetBinding.editTaskBottomSheetTaskDeadlineTimeTv
+        )
 
         return binding.root
     }
@@ -146,7 +152,7 @@ class SearchFragment : Fragment(),
     private fun setupClickListeners(task: TaskModel) {
         // On Confirm Button Pressed
         bottomSheetBinding.editTaskBottomSheetConfirmBtn.setOnClickListener {
-            if (HelperFunctions.validateEditTaskForm(bottomSheetBinding)) {
+            if (HelperFunctions.validateBottomsSheetEditTaskForm(bottomSheetBinding)) {
                 insertTask(task.id)
                 dialog.dismiss()
             }
@@ -194,7 +200,9 @@ class SearchFragment : Fragment(),
 
     private fun insertTask(taskId: Int) {
         // Getting Task Values from their Views
-        val (taskTitle, taskDescription, taskDeadline) = HelperFunctions.extractTaskInfoFromTextViews(bottomSheetBinding)
+        val (taskTitle, taskDescription, taskDeadline) = HelperFunctions.extractTaskInfoFromTextViews(
+            bottomSheetBinding
+        )
 
         lifecycleScope.launch(Dispatchers.IO) {
             taskViewModel.insertTask(
@@ -223,10 +231,13 @@ class SearchFragment : Fragment(),
         }
     }
 
-    private fun triggerSearchOnTextChanged(text: CharSequence?){
+    private fun triggerSearchOnTextChanged(text: CharSequence?) {
         val query = text.toString().trim()
-        if (query.isNotEmpty()) { observeTasks(query) }
-        else { adapter.updateTasks(emptyList()) }
+        if (query.isNotEmpty()) {
+            observeTasks(query)
+        } else {
+            adapter.updateTasks(emptyList())
+        }
     }
 
     companion object {

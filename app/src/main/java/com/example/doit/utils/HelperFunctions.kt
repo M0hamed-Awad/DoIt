@@ -12,6 +12,7 @@ import com.example.doit.models.TaskModel
 import com.example.doit.models.TaskStatus
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import io.github.muddz.styleabletoast.StyleableToast
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -77,7 +78,7 @@ class HelperFunctions {
 
         // Validation
 
-        fun validateEditTaskForm(binding: EditTaskBottomSheetBinding): Boolean {
+        fun validateBottomsSheetEditTaskForm(binding: EditTaskBottomSheetBinding): Boolean {
             var isValid = true
 
             val titleEt = binding.editTaskBottomSheetTaskTitleEt
@@ -112,10 +113,11 @@ class HelperFunctions {
 
         private fun isTaskDeadlineValid(date: String, time: String, context: Context): Boolean {
             if (date.isEmpty() || time.isEmpty()) {
-                Toast.makeText(
+                StyleableToast.makeText(
                     context,
                     "Please select deadline date and time",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_LONG,
+                    R.style.error_toast_style
                 ).show()
                 return false
             } else {
@@ -123,10 +125,11 @@ class HelperFunctions {
                     val deadline = parseDeadline(date, time)
 
                     if (deadline.isBefore(LocalDateTime.now())) {
-                        Toast.makeText(
+                        StyleableToast.makeText(
                             context,
                             "Task Deadline must be in the future",
-                            Toast.LENGTH_SHORT
+                            Toast.LENGTH_LONG,
+                            R.style.error_toast_style
                         ).show()
                         return false
                     }
@@ -134,71 +137,57 @@ class HelperFunctions {
                     return true
 
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Invalid date/time format", Toast.LENGTH_SHORT).show()
+                    StyleableToast.makeText(
+                        context,
+                        "Invalid date/time format",
+                        Toast.LENGTH_LONG,
+                        R.style.error_toast_style
+                    ).show()
                     return false
                 }
             }
         }
 
-        // Date and Time Dialogs Helper Functions
+        // Date and Time Dialogs Helper Functions for Bottom Sheet Dialog
 
         fun initializeDatePicker(
             calendarDate: Calendar,
-            bottomSheetBinding: EditTaskBottomSheetBinding
+            dateTextView: TextView
         ): DatePickerDialog.OnDateSetListener {
             // Setting the Date Picker with a Certain Format ( Month / Day / Year ) -> ( 3/28/2025 )
-            val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            return DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 calendarDate.set(Calendar.YEAR, year)
                 calendarDate.set(Calendar.MONTH, month)
                 calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
                 // Updating the Date Text View Text
-                updateDateLabel(
-                    bottomSheetBinding.editTaskBottomSheetTaskDeadlineDateTv,
-                    calendarDate
-                )
+                updateDateLabel(dateTextView, calendarDate)
             }
-
-            return datePicker
         }
 
         private fun updateDateLabel(dateTv: TextView, calendarDate: Calendar) {
             // Preparing the Date Format
             val format = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-            val date = format.format(calendarDate.time)
-
-            dateTv.text = date
+            dateTv.text = format.format(calendarDate.time)
         }
 
         fun initializeTimePicker(
             calendarTime: Calendar,
-            bottomSheetBinding: EditTaskBottomSheetBinding
+            timeTextView: TextView
         ): TimePickerDialog.OnTimeSetListener {
-
             // Setting the Date Picker with a Certain Format ( Hour:Minutes AM/PM ) -> ( 10:00 AM )
-            val timePicker = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+            return TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                 calendarTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
                 calendarTime.set(Calendar.MINUTE, minute)
-
                 calendarTime.timeZone = TimeZone.getDefault()
-
                 // Updating the Time Text View Text
-                updateTimeLabel(
-                    bottomSheetBinding.editTaskBottomSheetTaskDeadlineTimeTv,
-                    calendarTime
-                )
+                updateTimeLabel(timeTextView, calendarTime)
             }
-
-            return timePicker
-
         }
 
         private fun updateTimeLabel(timeTv: TextView, calendarTime: Calendar) {
             // Preparing the Time Format
             val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
-            val time = format.format(calendarTime.time)
-
-            timeTv.text = time
+            timeTv.text = format.format(calendarTime.time)
         }
 
         fun populateTaskDataToViews(
@@ -220,12 +209,14 @@ class HelperFunctions {
             // Setting up the Task Deadline components (date - time)
             val date =
                 bottomSheetBinding.editTaskBottomSheetTaskDeadlineDateTv.text.toString().trim()
+                    .trim()
             val time =
                 bottomSheetBinding.editTaskBottomSheetTaskDeadlineTimeTv.text.toString().trim()
 
             // Getting Task Values from their Views
-            val taskTitle = bottomSheetBinding.editTaskBottomSheetTaskTitleEt.text.toString()
-            val taskDescription = bottomSheetBinding.editTaskBottomSheetTaskDescEt.text.toString()
+
+            val taskTitle = bottomSheetBinding.editTaskBottomSheetTaskTitleEt.text.toString().trim()
+            val taskDescription = bottomSheetBinding.editTaskBottomSheetTaskDescEt.text.toString().trim()
 
             val taskDeadline = parseDeadline(date, time)
 

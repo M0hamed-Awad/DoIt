@@ -17,10 +17,11 @@ import com.example.doit.databinding.ActivityAddTaskBinding
 import com.example.doit.repository.TaskDao
 import com.example.doit.models.TaskModel
 import com.example.doit.repository.TaskRepository
-import com.example.doit.utils.HelperFunctions
+import com.example.doit.utils.HelperFunctions.Companion.parseDeadline
 import com.example.doit.utils.HelperFunctions.Companion.validateEmptyField
 import com.example.doit.viewmodels.TaskViewModel
 import com.example.doit.viewmodels.TaskViewModelFactory
+import io.github.muddz.styleabletoast.StyleableToast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -37,7 +38,6 @@ class AddTaskActivity : AppCompatActivity() {
 
     private lateinit var datePicker: DatePickerDialog.OnDateSetListener
     private lateinit var timePicker: TimePickerDialog.OnTimeSetListener
-
     private val calendarDate = Calendar.getInstance()
     private val calendarTime = Calendar.getInstance()
 
@@ -54,16 +54,18 @@ class AddTaskActivity : AppCompatActivity() {
             insets
         }
 
+        // Creating View Model with it's Factory
         dao = DatabaseProvider.getDatabase(this).getTaskDao()
 
         val factory = TaskViewModelFactory(TaskRepository(dao))
         taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
 
+        // Initializing Date & Time Pickers to be used in their Dialogs
         initializeDatePicker()
         initializeTimePicker()
 
         binding.addTaskActivityConfirmBtn.setOnClickListener {
-            if (validateForm()){
+            if (validateForm()) {
                 insertTask()
             }
         }
@@ -80,28 +82,37 @@ class AddTaskActivity : AppCompatActivity() {
     }
 
     private fun initializeDatePicker() {
-
+        // Setting the Date Picker with a Certain Format ( Month / Day / Year ) -> ( 3/28/2025 )
         datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
             calendarDate.set(Calendar.YEAR, year)
             calendarDate.set(Calendar.MONTH, month)
             calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
+            // Updating the Date Text View Text
             updateDateLabel(calendarDate)
         }
+    }
 
+    private fun updateDateLabel(calendarDate: Calendar) {
+        // Preparing the Date Format
+        val format = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        binding.addTaskActivityTaskDeadlineDateTv.text = format.format(calendarDate.time)
     }
 
     private fun initializeTimePicker() {
-
+        // Setting the Date Picker with a Certain Format ( Hour:Minutes AM/PM ) -> ( 10:00 AM )
         timePicker = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             calendarTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
             calendarTime.set(Calendar.MINUTE, minute)
-
             calendarTime.timeZone = TimeZone.getDefault()
-
+            // Updating the Time Text View Text
             updateTimeLabel(calendarTime)
         }
+    }
 
+    private fun updateTimeLabel(calendarTime: Calendar) {
+        // Preparing the Time Format
+        val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        binding.addTaskActivityTaskDeadlineTimeTv.text = format.format(calendarTime.time)
     }
 
     private fun showDatePickerDialog(
@@ -129,18 +140,6 @@ class AddTaskActivity : AppCompatActivity() {
             calendarTime.get(Calendar.MINUTE),
             false,
         ).show()
-    }
-
-    private fun updateTimeLabel(calendarTime: Calendar) {
-        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        val time = timeFormat.format(calendarTime.time)
-        binding.addTaskActivityTaskDeadlineTimeTv.text = time
-    }
-
-    private fun updateDateLabel(calendarDate: Calendar) {
-        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-        val date = dateFormat.format(calendarDate.time)
-        binding.addTaskActivityTaskDeadlineDateTv.text = date
     }
 
     private fun validateForm(): Boolean {
@@ -172,18 +171,23 @@ class AddTaskActivity : AppCompatActivity() {
 
     private fun isTaskDeadlineValid(date: String, time: String): Boolean {
         if (date.isEmpty() || time.isEmpty()) {
-            Toast.makeText(baseContext, "Please select deadline date and time", Toast.LENGTH_SHORT)
-                .show()
+            StyleableToast.makeText(
+                applicationContext,
+                "Please select deadline date and time",
+                Toast.LENGTH_LONG,
+                R.style.error_toast_style
+            ).show()
             return false
         } else {
             try {
-                val deadline = HelperFunctions.parseDeadline(date, time)
+                val deadline = parseDeadline(date, time)
 
                 if (deadline.isBefore(LocalDateTime.now())) {
-                    Toast.makeText(
-                        baseContext,
+                    StyleableToast.makeText(
+                        applicationContext,
                         "Task Deadline must be in the future",
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_LONG,
+                        R.style.error_toast_style
                     ).show()
                     return false
                 } else {
@@ -191,7 +195,12 @@ class AddTaskActivity : AppCompatActivity() {
                 }
 
             } catch (e: Exception) {
-                Toast.makeText(baseContext, "Invalid date/time format", Toast.LENGTH_SHORT).show()
+                StyleableToast.makeText(
+                    applicationContext,
+                    "Invalid date/time format",
+                    Toast.LENGTH_LONG,
+                    R.style.error_toast_style
+                ).show()
                 return false
             }
         }
@@ -216,16 +225,19 @@ class AddTaskActivity : AppCompatActivity() {
 
     private fun extractTaskInfoFromTextViews(): Triple<String, String, LocalDateTime> {
         // Setting up the Task Deadline components (date - time)
-        val date = binding.addTaskActivityTaskDeadlineDateTv.text.toString().trim()
-        val time = binding.addTaskActivityTaskDeadlineTimeTv.text.toString().trim()
+        val date =
+            binding.addTaskActivityTaskDeadlineDateTv.text.toString().trim()
+                .trim()
+        val time =
+            binding.addTaskActivityTaskDeadlineTimeTv.text.toString().trim()
 
         // Getting Task Values from their Views
-        val taskTitle = binding.addTaskActivityTaskTitleEt.text.toString()
-        val taskDescription = binding.addTaskActivityTaskDescEt.text.toString()
 
-        val taskDeadline = HelperFunctions.parseDeadline(date, time)
+        val taskTitle = binding.addTaskActivityTaskTitleEt.text.toString().trim()
+        val taskDescription = binding.addTaskActivityTaskDescEt.text.toString().trim()
+
+        val taskDeadline = parseDeadline(date, time)
 
         return Triple(taskTitle, taskDescription, taskDeadline)
     }
-
 }

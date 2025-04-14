@@ -83,8 +83,14 @@ open class HomeFragment : Fragment(),
         taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
 
         // Initializing Date & Time Pickers to be used in their Dialogs
-        datePicker = HelperFunctions.initializeDatePicker(calendarDate, bottomSheetBinding)
-        timePicker = HelperFunctions.initializeTimePicker(calendarTime, bottomSheetBinding)
+        datePicker = HelperFunctions.initializeDatePicker(
+            calendarDate,
+            bottomSheetBinding.editTaskBottomSheetTaskDeadlineDateTv
+        )
+        timePicker = HelperFunctions.initializeTimePicker(
+            calendarTime,
+            bottomSheetBinding.editTaskBottomSheetTaskDeadlineTimeTv
+        )
 
         // Creating Page Tabs
         setUpTabLayoutWithViewPager()
@@ -120,9 +126,6 @@ open class HomeFragment : Fragment(),
     }
 
     override fun onEditTaskOptionClicked(task: TaskModel) {
-        // Inflating the Bottom Sheet
-        bottomSheetBinding = EditTaskBottomSheetBinding.inflate(layoutInflater)
-
         // Fill the Views by the Task Values
         HelperFunctions.populateTaskDataToViews(task, bottomSheetBinding)
 
@@ -136,7 +139,7 @@ open class HomeFragment : Fragment(),
     private fun setupClickListeners(task: TaskModel) {
         // On Confirm Button Pressed
         bottomSheetBinding.editTaskBottomSheetConfirmBtn.setOnClickListener {
-            if (HelperFunctions.validateEditTaskForm(bottomSheetBinding)) {
+            if (HelperFunctions.validateBottomsSheetEditTaskForm(bottomSheetBinding)) {
                 insertTask(task.id)
                 dialog.dismiss()
             }
@@ -184,7 +187,9 @@ open class HomeFragment : Fragment(),
 
     private fun insertTask(taskId: Int) {
         // Getting Task Values from their Views
-        val (taskTitle, taskDescription, taskDeadline) = HelperFunctions.extractTaskInfoFromTextViews(bottomSheetBinding)
+        val (taskTitle, taskDescription, taskDeadline) = HelperFunctions.extractTaskInfoFromTextViews(
+            bottomSheetBinding
+        )
 
         lifecycleScope.launch(Dispatchers.IO) {
             taskViewModel.insertTask(
