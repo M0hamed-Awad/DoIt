@@ -30,7 +30,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/tab_icon_desc"
-        tools:src="@drawable/ic_in_progress_task_24"/>
+        tools:src="@drawable/ic_in_progress_task_40"/>
 
 </LinearLayout>
 

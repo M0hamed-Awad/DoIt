@@ -14,6 +14,7 @@ object DatabaseProvider {
                 AppDatabase::class.java,
                 "Task_DB"
             ).build()
+
             INSTANCE = instance
             instance
         }

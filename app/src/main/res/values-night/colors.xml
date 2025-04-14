@@ -2,11 +2,17 @@
 <resources>
     <color name="text_color">#F8FCFF</color>
 
+    <color name="background_color">#020710</color>
+
+    <color name="unfocused_border_color">#979797</color>
+
+    <color name="light_grey_color">#33E2E2E2</color>
+
     <!-- Options Menu Color -->
     <color name="options_menu_background_color">#494F57</color>
 
     <!-- Task Items Colors -->
-    <color name="in_progress_task_color">#DC9D05</color>
+    <color name="in_progress_task_color">#D39604</color>
     <color name="completed_task_color">#12BA46</color>
     <color name="overdue_task_color">#B14040</color>
 </resources>

@@ -44,7 +44,7 @@
                     app:boxCornerRadiusBottomStart="16dp"
                     app:boxCornerRadiusTopEnd="16dp"
                     app:boxCornerRadiusTopStart="16dp"
-                    app:boxStrokeColor="@color/secondary_color_dark"
+                    app:boxStrokeColor="@color/text_input_color"
                     app:cursorColor="@color/secondary_color_dark"
                     app:hintTextColor="@color/secondary_color_dark">
 
@@ -70,7 +70,7 @@
                     app:boxCornerRadiusBottomStart="16dp"
                     app:boxCornerRadiusTopEnd="16dp"
                     app:boxCornerRadiusTopStart="16dp"
-                    app:boxStrokeColor="@color/secondary_color_dark"
+                    app:boxStrokeColor="@color/text_input_color"
                     app:cursorColor="@color/secondary_color_dark"
                     app:hintTextColor="@color/secondary_color_dark">
 
@@ -237,6 +237,7 @@
                     android:backgroundTint="@color/red_color"
                     android:paddingVertical="16dp"
                     android:text="@string/cancel_button_text"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

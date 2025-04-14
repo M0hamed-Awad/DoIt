@@ -6,9 +6,9 @@ import com.example.doit.models.TaskStatus
 class Constants {
     companion object {
         val tabs = mapOf(
-            TaskStatus.IN_PROGRESS.status to R.drawable.ic_in_progress_task_24,
-            TaskStatus.COMPLETED.status to R.drawable.ic_completed_task_24,
-            TaskStatus.OVERDUE.status to R.drawable.ic_overdue_task_24,
+            TaskStatus.IN_PROGRESS.status to R.drawable.ic_in_progress_task_40,
+            TaskStatus.COMPLETED.status to R.drawable.ic_complete_task_40,
+            TaskStatus.OVERDUE.status to R.drawable.ic_overdue_task_40,
         )
     }
 }

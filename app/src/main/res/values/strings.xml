@@ -21,4 +21,7 @@
     <string name="delete_task_option_title">Delete Task</string>
     <string name="edit_task_option_title">Edit Task</string>
     <string name="complete_task_option_title">Complete Task</string>
+
+    <string name="task_option_icon_desc">Task Option Icon</string>
+    <string name="search_bar_hint">Search tasks</string>
 </resources>

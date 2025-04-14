@@ -14,7 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.doit.R
 import com.example.doit.database.DatabaseProvider
 import com.example.doit.databinding.ActivityAddTaskBinding
-import com.example.doit.models.TaskDao
+import com.example.doit.repository.TaskDao
 import com.example.doit.models.TaskModel
 import com.example.doit.repository.TaskRepository
 import com.example.doit.utils.HelperFunctions
@@ -132,14 +132,14 @@ class AddTaskActivity : AppCompatActivity() {
     }
 
     private fun updateTimeLabel(calendarTime: Calendar) {
-        val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
-        val time = format.format(calendarTime.time)
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        val time = timeFormat.format(calendarTime.time)
         binding.addTaskActivityTaskDeadlineTimeTv.text = time
     }
 
     private fun updateDateLabel(calendarDate: Calendar) {
-        val format = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
-        val date = format.format(calendarDate.time)
+        val dateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        val date = dateFormat.format(calendarDate.time)
         binding.addTaskActivityTaskDeadlineDateTv.text = date
     }
 
@@ -186,9 +186,9 @@ class AddTaskActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     return false
+                } else {
+                    return true
                 }
-
-                return true
 
             } catch (e: Exception) {
                 Toast.makeText(baseContext, "Invalid date/time format", Toast.LENGTH_SHORT).show()
