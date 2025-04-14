@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.example.doit.database.converters.DateConverter
 import com.example.doit.database.converters.TaskStatusConverter
 import com.example.doit.models.TaskModel
-import com.example.doit.models.TaskDao
+import com.example.doit.repository.TaskDao
 
 @Database(
     entities = [TaskModel::class],

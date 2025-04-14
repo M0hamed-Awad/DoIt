@@ -19,7 +19,6 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
     val completedTasks: LiveData<List<TaskModel>> = repository.getCompletedTasks()
     val overdueTasks: LiveData<List<TaskModel>> = repository.getOverdueTasks()
 
-
     fun insertTask(taskModel: TaskModel) {
         viewModelScope.launch {
             repository.insertTask(taskModel)
@@ -32,10 +31,14 @@ class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
         }
     }
 
-    fun updateOverdueTasks() {
+    private fun updateOverdueTasks() {
         viewModelScope.launch {
             val now = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             repository.updateOverdueTasks(now)
         }
+    }
+
+    fun searchTasks(query: String): LiveData<List<TaskModel>> {
+        return repository.getSearchedTasks(query)
     }
 }

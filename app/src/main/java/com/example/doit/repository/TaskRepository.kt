@@ -2,7 +2,6 @@ package com.example.doit.repository
 
 import androidx.lifecycle.LiveData
 import com.example.doit.models.TaskModel
-import com.example.doit.models.TaskDao
 
 class TaskRepository(private val dao: TaskDao) {
 
@@ -12,6 +11,10 @@ class TaskRepository(private val dao: TaskDao) {
 
     suspend fun deleteTask(taskModel: TaskModel) {
         dao.deleteTask(taskModel)
+    }
+
+    suspend fun updateOverdueTasks(currentTime: String) {
+        dao.updateOverdueTasks(currentTime)
     }
 
     fun getInProgressTasks(): LiveData<List<TaskModel>> {
@@ -26,7 +29,7 @@ class TaskRepository(private val dao: TaskDao) {
         return dao.getOverdueTasks()
     }
 
-    suspend fun updateOverdueTasks(currentTime: String) {
-        dao.updateOverdueTasks(currentTime)
+    fun getSearchedTasks(text: String): LiveData<List<TaskModel>>{
+       return dao.searchTasks(text)
     }
 }

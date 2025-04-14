@@ -1,7 +1,6 @@
 package com.example.doit.ui.adapters
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.doit.R
 import com.example.doit.databinding.TaskItemBinding
-import com.example.doit.databinding.TaskOptionItemBinding
 import com.example.doit.databinding.TaskOptionsPopupMenuBinding
 import com.example.doit.models.TaskModel
 import com.example.doit.utils.HelperFunctions
