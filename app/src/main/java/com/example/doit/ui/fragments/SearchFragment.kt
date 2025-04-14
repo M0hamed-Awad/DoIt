@@ -1,6 +1,7 @@
 package com.example.doit.ui.fragments
 
-import android.content.Context
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,22 +9,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.doit.R
+
 import com.example.doit.database.DatabaseProvider
+import com.example.doit.databinding.EditTaskBottomSheetBinding
 import com.example.doit.databinding.FragmentSearchBinding
 import com.example.doit.models.TaskModel
-import com.example.doit.models.TaskStatus
 import com.example.doit.repository.TaskDao
 import com.example.doit.repository.TaskRepository
 import com.example.doit.ui.adapters.TasksAdapter
+import com.example.doit.utils.HelperFunctions
 import com.example.doit.viewmodels.TaskViewModel
 import com.example.doit.viewmodels.TaskViewModelFactory
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,10 +45,19 @@ class SearchFragment : Fragment(),
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
     private lateinit var binding: FragmentSearchBinding
+    private lateinit var bottomSheetBinding: EditTaskBottomSheetBinding
+
     private lateinit var dao: TaskDao
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var adapter: TasksAdapter
+
+    private lateinit var dialog: BottomSheetDialog
+    private lateinit var datePicker: DatePickerDialog.OnDateSetListener
+    private lateinit var timePicker: TimePickerDialog.OnTimeSetListener
+    private val calendarDate = Calendar.getInstance()
+    private val calendarTime = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,12 +73,17 @@ class SearchFragment : Fragment(),
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(layoutInflater)
+        bottomSheetBinding = EditTaskBottomSheetBinding.inflate(layoutInflater)
 
         // Creating View Model with it's Factory
         dao = DatabaseProvider.getDatabase(requireContext()).getTaskDao()
         val factory = TaskViewModelFactory(TaskRepository(dao))
 
         taskViewModel = ViewModelProvider(this, factory)[TaskViewModel::class.java]
+
+        // Initializing Date & Time Pickers to be used in their Dialogs
+        datePicker = HelperFunctions.initializeDatePicker(calendarDate, bottomSheetBinding)
+        timePicker = HelperFunctions.initializeTimePicker(calendarTime, bottomSheetBinding)
 
         return binding.root
     }
@@ -105,26 +122,99 @@ class SearchFragment : Fragment(),
 
     override fun onCompleteTaskOptionClicked(task: TaskModel) {
         // Changing Task Status
-        task.taskStatus = changeTaskStatus(task.taskStatus)
+        task.taskStatus = HelperFunctions.changeTaskStatus(task.taskStatus)
 
         lifecycleScope.launch(Dispatchers.IO) {
             taskViewModel.insertTask(task)
         }
     }
 
-    private fun changeTaskStatus(taskStatus: TaskStatus): TaskStatus {
-        return if (taskStatus == TaskStatus.COMPLETED) {
-            // If the Task already Completed them make it In Progress
-            TaskStatus.IN_PROGRESS
-        } else {
-            // Else make it Completed
-            TaskStatus.COMPLETED
+    override fun onEditTaskOptionClicked(task: TaskModel) {
+        // Inflating the Bottom Sheet
+        bottomSheetBinding = EditTaskBottomSheetBinding.inflate(layoutInflater)
+
+        // Fill the Views by the Task Values
+        HelperFunctions.populateTaskDataToViews(task, bottomSheetBinding)
+
+        // Preparing Click Listeners for Button and Date & Time Pickers
+        setupClickListeners(task)
+
+        // Displaying the Dialog
+        showDialog(bottomSheetBinding.root)
+    }
+
+    private fun setupClickListeners(task: TaskModel) {
+        // On Confirm Button Pressed
+        bottomSheetBinding.editTaskBottomSheetConfirmBtn.setOnClickListener {
+            if (HelperFunctions.validateEditTaskForm(bottomSheetBinding)) {
+                insertTask(task.id)
+                dialog.dismiss()
+            }
+        }
+
+        // On Cancel Button Pressed
+        bottomSheetBinding.editTaskBottomSheetCancelBtn.setOnClickListener { dialog.dismiss() }
+
+        // On Clicking on the Date Picker
+        bottomSheetBinding.editTaskBottomSheetSelectDateLinearLayout.setOnClickListener {
+            showDatePickerDialog(datePicker, calendarDate)
+        }
+
+        // On Clicking on the Time Picker
+        bottomSheetBinding.editTaskBottomSheetSelectTimeLinearLayout.setOnClickListener {
+            showTimePickerDialog(timePicker, calendarTime)
         }
     }
 
+    private fun showDatePickerDialog(
+        datePickerDialog: DatePickerDialog.OnDateSetListener,
+        calendarDate: Calendar
+    ) {
+        DatePickerDialog(
+            requireContext(),
+            datePickerDialog,
+            calendarDate.get(Calendar.YEAR),
+            calendarDate.get(Calendar.MONTH),
+            calendarDate.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
 
-    override fun onEditTaskOptionClicked(task: TaskModel) {
-        TODO("Not yet implemented")
+    private fun showTimePickerDialog(
+        timePickerDialog: TimePickerDialog.OnTimeSetListener,
+        calendarTime: Calendar
+    ) {
+        TimePickerDialog(
+            requireContext(),
+            timePickerDialog,
+            calendarTime.get(Calendar.HOUR_OF_DAY),
+            calendarTime.get(Calendar.MINUTE),
+            false,
+        ).show()
+    }
+
+    private fun insertTask(taskId: Int) {
+        // Getting Task Values from their Views
+        val (taskTitle, taskDescription, taskDeadline) = HelperFunctions.extractTaskInfoFromTextViews(bottomSheetBinding)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            taskViewModel.insertTask(
+                TaskModel(
+                    id = taskId,
+                    title = taskTitle,
+                    description = taskDescription,
+                    deadline = taskDeadline,
+                )
+            )
+        }
+    }
+
+    private fun showDialog(dialogView: View) {
+        // Inflating the Bottom Sheet
+        dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+        dialog.setContentView(dialogView)
+
+        // Display the Bottom Sheet
+        dialog.show()
     }
 
     private fun observeTasks(text: String) {
@@ -138,8 +228,6 @@ class SearchFragment : Fragment(),
         if (query.isNotEmpty()) { observeTasks(query) }
         else { adapter.updateTasks(emptyList()) }
     }
-
-
 
     companion object {
         /**

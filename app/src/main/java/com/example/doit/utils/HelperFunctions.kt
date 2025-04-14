@@ -1,22 +1,32 @@
 package com.example.doit.utils
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.doit.R
 import com.example.doit.databinding.EditTaskBottomSheetBinding
+import com.example.doit.models.TaskModel
 import com.example.doit.models.TaskStatus
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
+import java.util.TimeZone
 
 class HelperFunctions {
     companion object {
+        // Task Helper Functions
+
         fun getTaskStatuesIcon(taskStatus: String): Int {
             return when (taskStatus) {
                 TaskStatus.IN_PROGRESS.status -> R.drawable.ic_in_progress_task_40
-                TaskStatus.COMPLETED.status -> R.drawable.ic_completed_task_40
+                TaskStatus.COMPLETED.status -> R.drawable.ic_complete_task_40
                 else -> R.drawable.ic_overdue_task_40
             }
         }
@@ -55,21 +65,32 @@ class HelperFunctions {
             }
         }
 
+        fun changeTaskStatus(taskStatus: TaskStatus): TaskStatus {
+            return if (taskStatus == TaskStatus.COMPLETED) {
+                // If the Task already Completed them make it In Progress
+                TaskStatus.IN_PROGRESS
+            } else {
+                // Else make it Completed
+                TaskStatus.COMPLETED
+            }
+        }
+
+        // Validation
 
         fun validateEditTaskForm(binding: EditTaskBottomSheetBinding): Boolean {
             var isValid = true
 
-            val title = binding.editTaskBottomSheetTaskTitleEt
-            val description = binding.editTaskBottomSheetTaskDescEt
+            val titleEt = binding.editTaskBottomSheetTaskTitleEt
+            val descriptionEt = binding.editTaskBottomSheetTaskDescEt
 
             // Validate Task Title and Description as not empty
             val isTitleNotEmpty =
-                title.validateEmptyField(
+                titleEt.validateEmptyField(
                     binding.editTaskBottomSheetTitleTextInputLayout,
                     "Title is required"
                 )
             val isDescriptionNotEmpty =
-                description.validateEmptyField(
+                descriptionEt.validateEmptyField(
                     binding.editTaskBottomSheetDescTextInputLayout,
                     "Description is required"
                 )
@@ -95,8 +116,7 @@ class HelperFunctions {
                     context,
                     "Please select deadline date and time",
                     Toast.LENGTH_SHORT
-                )
-                    .show()
+                ).show()
                 return false
             } else {
                 try {
@@ -114,11 +134,104 @@ class HelperFunctions {
                     return true
 
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Invalid date/time format", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, "Invalid date/time format", Toast.LENGTH_SHORT).show()
                     return false
                 }
             }
         }
+
+        // Date and Time Dialogs Helper Functions
+
+        fun initializeDatePicker(
+            calendarDate: Calendar,
+            bottomSheetBinding: EditTaskBottomSheetBinding
+        ): DatePickerDialog.OnDateSetListener {
+            // Setting the Date Picker with a Certain Format ( Month / Day / Year ) -> ( 3/28/2025 )
+            val datePicker = DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+                calendarDate.set(Calendar.YEAR, year)
+                calendarDate.set(Calendar.MONTH, month)
+                calendarDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+                // Updating the Date Text View Text
+                updateDateLabel(
+                    bottomSheetBinding.editTaskBottomSheetTaskDeadlineDateTv,
+                    calendarDate
+                )
+            }
+
+            return datePicker
+        }
+
+        private fun updateDateLabel(dateTv: TextView, calendarDate: Calendar) {
+            // Preparing the Date Format
+            val format = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+            val date = format.format(calendarDate.time)
+
+            dateTv.text = date
+        }
+
+        fun initializeTimePicker(
+            calendarTime: Calendar,
+            bottomSheetBinding: EditTaskBottomSheetBinding
+        ): TimePickerDialog.OnTimeSetListener {
+
+            // Setting the Date Picker with a Certain Format ( Hour:Minutes AM/PM ) -> ( 10:00 AM )
+            val timePicker = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                calendarTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendarTime.set(Calendar.MINUTE, minute)
+
+                calendarTime.timeZone = TimeZone.getDefault()
+
+                // Updating the Time Text View Text
+                updateTimeLabel(
+                    bottomSheetBinding.editTaskBottomSheetTaskDeadlineTimeTv,
+                    calendarTime
+                )
+            }
+
+            return timePicker
+
+        }
+
+        private fun updateTimeLabel(timeTv: TextView, calendarTime: Calendar) {
+            // Preparing the Time Format
+            val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
+            val time = format.format(calendarTime.time)
+
+            timeTv.text = time
+        }
+
+        fun populateTaskDataToViews(
+            task: TaskModel,
+            bottomSheetBinding: EditTaskBottomSheetBinding
+        ) {
+            // Getting the Task Deadline components (date - time)
+            val taskDeadlineTime = task.deadline.format(DateTimeFormatter.ofPattern("hh:mm a"))
+            val taskDeadlineDate = task.deadline.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+
+            // Putting the Task Values to their Views
+            bottomSheetBinding.editTaskBottomSheetTaskTitleEt.setText(task.title)
+            bottomSheetBinding.editTaskBottomSheetTaskDescEt.setText(task.description)
+            bottomSheetBinding.editTaskBottomSheetTaskDeadlineDateTv.text = taskDeadlineDate
+            bottomSheetBinding.editTaskBottomSheetTaskDeadlineTimeTv.text = taskDeadlineTime
+        }
+
+        fun extractTaskInfoFromTextViews(bottomSheetBinding: EditTaskBottomSheetBinding): Triple<String, String, LocalDateTime> {
+            // Setting up the Task Deadline components (date - time)
+            val date =
+                bottomSheetBinding.editTaskBottomSheetTaskDeadlineDateTv.text.toString().trim()
+            val time =
+                bottomSheetBinding.editTaskBottomSheetTaskDeadlineTimeTv.text.toString().trim()
+
+            // Getting Task Values from their Views
+            val taskTitle = bottomSheetBinding.editTaskBottomSheetTaskTitleEt.text.toString()
+            val taskDescription = bottomSheetBinding.editTaskBottomSheetTaskDescEt.text.toString()
+
+            val taskDeadline = parseDeadline(date, time)
+
+            return Triple(taskTitle, taskDescription, taskDeadline)
+        }
+
+
     }
 }

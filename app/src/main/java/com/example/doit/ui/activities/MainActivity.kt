@@ -7,8 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.example.doit.R
 import com.example.doit.databinding.ActivityMainBinding
+import com.example.doit.ui.fragments.HomeFragment
+import com.example.doit.ui.fragments.SearchFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -31,5 +34,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, AddTaskActivity::class.java)
             startActivity(intent)
         }
+
+        binding.bottomNavBar.setOnItemSelectedListener {
+            when(it.itemId){
+                R.id.home_bottom_nav -> replaceFragment(HomeFragment())
+                else -> replaceFragment(SearchFragment())
+            }
+            true
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragment_container, fragment)
+        transaction.commit()
     }
 }
