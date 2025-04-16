@@ -2,6 +2,8 @@
 <resources>
     <color name="text_color">#F8FCFF</color>
 
+    <color name="splash_screen_background_color">#131D16</color>
+
     <color name="background_color">#020710</color>
 
     <color name="unfocused_border_color">#979797</color>

@@ -13,6 +13,7 @@
     <color name="background_color">#FFFAF1</color>
     <color name="text_color">#0A1016</color>
     <color name="unfocused_border_color">#A2A2A2</color>
+    <color name="splash_screen_background_color">#FFEDDA</color>
 
     <!-- Options Menu Color -->
     <color name="options_menu_background_color">#F3F7FA</color>
