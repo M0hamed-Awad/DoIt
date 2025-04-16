@@ -15,19 +15,19 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(taskModel: TaskModel)
 
-    @Query("SELECT * FROM tasks where taskStatus = 'In Progress'")
+    @Query("SELECT * FROM tasks where taskStatus = 'In Progress' ORDER BY deadline ASC")
     fun getInProgressTasks(): LiveData<List<TaskModel>>
 
-    @Query("SELECT * FROM tasks where taskStatus = 'Completed'")
+    @Query("SELECT * FROM tasks where taskStatus = 'Completed' ORDER BY deadline ASC")
     fun getCompletedTasks(): LiveData<List<TaskModel>>
 
-    @Query("SELECT * FROM tasks where taskStatus = 'Overdue'")
+    @Query("SELECT * FROM tasks where taskStatus = 'Overdue' ORDER BY deadline ASC")
     fun getOverdueTasks(): LiveData<List<TaskModel>>
 
     @Query("UPDATE tasks SET taskStatus = 'Overdue' WHERE deadline < :currentTime AND taskStatus == 'In Progress'")
     suspend fun updateOverdueTasks(currentTime: String)
 
-    @Query("SELECT * FROM tasks WHERE LOWER(title) LIKE LOWER('%' || :text || '%') OR LOWER(description) LIKE LOWER('%' || :text || '%')")
+    @Query("SELECT * FROM tasks WHERE LOWER(title) LIKE LOWER('%' || :text || '%') OR LOWER(description) LIKE LOWER('%' || :text || '%') ORDER BY title ASC")
     fun searchTasks(text: String): LiveData<List<TaskModel>>
 
     @Query("SELECT * FROM tasks")
